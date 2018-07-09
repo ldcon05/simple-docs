@@ -19,7 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 Route::resources([
     'documents' => 'DocumentController',
     'reviews' => 'ReviewController'
 ]);
+
+	
+Route::get('documents/create/{type}', 'DocumentController@create');
+Route::get('reviews/document/{id}', 'ReviewController@index');

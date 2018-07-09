@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Review;
+use App\Document;
 
 class ReviewController extends Controller
 {
@@ -21,9 +24,12 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($document)
     {
-        //
+        $review = new Review();
+        $reviewsDocument = review::where('documentId', $document)->get();
+        
+        return $reviewsDocument;
     }
 
     /**
@@ -42,9 +48,15 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Document $request)
     {
-        //
+        $review = new Review();
+        $review->title = $request->title;
+        $review->body = $request->body;
+        $review->tags = $request->tags;
+        $review->documentId = $request->id;
+        $review->userId = Auth::id();
+        $review->save();
     }
 
     /**
@@ -53,9 +65,9 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Review $review)
     {
-        //
+        return $review;
     }
 
     /**

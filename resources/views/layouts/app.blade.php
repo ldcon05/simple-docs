@@ -19,12 +19,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 </head>
 <body>
     <div id="app">
         @include('layouts.navbar')
 
-        <main class="py-4">
+        <main class="container">
             @yield('content')
         </main>
     </div>

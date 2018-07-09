@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ReviewController;
+use App\Document;
+
+
+
 
 class DocumentController extends Controller
 {
@@ -23,7 +29,8 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        //
+        $documents = Document::all();
+        return view('documents.home', compact('documents'));
     }
 
     /**
@@ -31,9 +38,9 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        //
+        return view('documents.create', compact('type'));
     }
 
     /**
@@ -44,7 +51,20 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Document
+        $document = new Document();
+        $document->title = $request->input('name');
+        $document->body = $request->input('description');
+        $document->tags = $request->input('tags');
+        $document->format = $request->input('format');
+        $document->userId = Auth::id();
+        $document->save();
+
+        //Review
+        $reviewCrtl = new ReviewController();
+        $reviewCrtl->store($document);
+
+        return redirect()->route('documents.index');
     }
 
     /**
@@ -64,9 +84,12 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Document $document)
     {
-        //
+        $reviewCrtl = new ReviewController();
+        $allDocument[0] = $document;
+        $allDocument[1] = $reviewCrtl->index($document->id);;
+        return view('documents.editar', compact('allDocument'));
     }
 
     /**
@@ -76,9 +99,21 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Document $document)
     {
-        //
+        //Document
+
+        $document->title = $request->input('name');
+        $document->body = $request->input('description');
+        $document->tags = $request->input('tags');
+        $document->save();
+
+        //Review
+        $reviewCrtl = new ReviewController();
+        $reviewCrtl->store($document);
+
+
+        return redirect()->route('documents.index');
     }
 
     /**
