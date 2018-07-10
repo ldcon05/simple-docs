@@ -65,9 +65,10 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show($id)
     {
-        return $review;
+        $review = new Review();
+        return $review::find($id);
     }
 
     /**

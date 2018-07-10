@@ -165,6 +165,12 @@ return [
          */
         Collective\Html\HtmlServiceProvider::class,
 
+        /*
+         * Laravel Pdf
+         */
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+
     ],
 
     /*
@@ -215,6 +221,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
     ],
 
 ];

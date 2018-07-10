@@ -73,9 +73,10 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Document $document)
+    public function show($id)
     {
-        return view('documents.show', compact('document'));
+        $document = new Document();
+        return $document::find($id);
     }
 
     /**

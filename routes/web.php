@@ -15,11 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//PDF
+Route::get('/ver/{type}/{id}', 'PdfController@show');
+Route::get('/download/{type}/{id}', 'PdfController@download');
 
+//Auth
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+//Resources
 Route::resources([
     'documents' => 'DocumentController',
     'reviews' => 'ReviewController'
