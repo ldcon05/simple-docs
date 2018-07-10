@@ -20,4 +20,24 @@
             </div>
         @endforeach
     </div>
+
+    <h2 class="mt-5">Shared Documents</h2>
+    <div class="row sharedDocuments mb-3">
+        @foreach($sharedDocuments as $document)
+            <div class="col-xl-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $document->document->title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ $document->document->created_at }}</h6>
+                        @if ($document->view === 1)
+                            <a href="/ver/document/{{ $document->document->id }}" class="card-link" target="_blank">Ver</a>
+                        @endif
+                        @if ($document->edit === 1)
+                            <a href="/documents/{{ $document->document->id }}/edit" class="card-link">Edit</a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
 @endsection

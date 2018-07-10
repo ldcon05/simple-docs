@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ReviewController;
 use App\Document;
+use App\Shared;
 
 
 
@@ -29,8 +30,10 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        $documents = Document::all();
-        return view('documents.home', compact('documents'));
+        return view('documents.home', [
+            'documents' => Document::where('userId', Auth::id())->get(),
+            'sharedDocuments' => Shared::where('userId', Auth::id())->get(),
+        ]);
     }
 
     /**

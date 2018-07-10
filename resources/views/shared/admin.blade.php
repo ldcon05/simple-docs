@@ -49,7 +49,7 @@
                 <tr>
                     <th class="id" scope="row">{{ $docShared-> id }}</th>
                     <td>
-                        {{ $docShared-> userId }}
+                        {{ $docShared-> user -> email }}
                     </td>
                     <td>
                         {{ $docShared-> edit }}

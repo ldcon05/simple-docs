@@ -75,7 +75,8 @@ class SharedController extends Controller
      */
     public function show($id)
     {
-        //
+        $shared = new Shared();
+        return $shared->find($id)->document;
     }
 
     /**
