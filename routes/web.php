@@ -29,8 +29,11 @@ Route::resources([
     'reviews' => 'ReviewController',
     'shared' => 'SharedController'
 ]);
-
 	
 Route::get('documents/create/{type}', 'DocumentController@create');
 Route::get('reviews/document/{id}', 'ReviewController@index');
 Route::get('shared/document/{id}', 'SharedController@index');
+
+//Filter
+
+Route::get('/filter/{author}/{tags}/{created_at}/{updated_at}', 'FilterController@filterDocuments');
