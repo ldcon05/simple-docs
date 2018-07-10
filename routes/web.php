@@ -23,13 +23,14 @@ Route::get('/download/{type}/{id}', 'PdfController@download');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
-
 //Resources
 Route::resources([
     'documents' => 'DocumentController',
-    'reviews' => 'ReviewController'
+    'reviews' => 'ReviewController',
+    'shared' => 'SharedController'
 ]);
 
 	
 Route::get('documents/create/{type}', 'DocumentController@create');
 Route::get('reviews/document/{id}', 'ReviewController@index');
+Route::get('shared/document/{id}', 'SharedController@index');

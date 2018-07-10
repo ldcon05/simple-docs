@@ -14,6 +14,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{ $document->created_at }}</h6>
                         <a href="/ver/document/{{ $document->id }}" class="card-link" target="_blank">Ver</a>
                         <a href="/documents/{{ $document->id }}/edit" class="card-link">Edit</a>
+                        <a href="/shared/document/{{ $document->id }}" class="card-link">Shared</a>
                     </div>
                 </div>
             </div>
