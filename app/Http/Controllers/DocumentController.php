@@ -53,8 +53,8 @@ class DocumentController extends Controller
     {
         //Document
         $document = new Document();
-        $document->title = $request->input('name');
-        $document->body = $request->input('description');
+        $document->title = $request->input('title');
+        $document->body = $request->input('body');
         $document->tags = $request->input('tags');
         $document->format = $request->input('format');
         $document->userId = Auth::id();
@@ -73,9 +73,9 @@ class DocumentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Document $document)
     {
-        //
+        return view('documents.show', compact('document'));
     }
 
     /**
@@ -103,8 +103,8 @@ class DocumentController extends Controller
     {
         //Document
 
-        $document->title = $request->input('name');
-        $document->body = $request->input('description');
+        $document->title = $request->input('title');
+        $document->body = $request->input('body');
         $document->tags = $request->input('tags');
         $document->save();
 

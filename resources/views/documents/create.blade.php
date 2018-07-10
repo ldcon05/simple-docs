@@ -2,30 +2,22 @@
 
 @section('content')
 <h1 class="text-center mt-3">Create Document</h1>
-<form action="/documents" method="POST" id="create-doc" class="mt-3 mb-3">
-    @csrf
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" placeholder="Enter name">
-    </div>
-    <div class="form-group">
-        <label for="name">Tags</label>
-        <input type="text" class="form-control" name="tags" placeholder="tag1, tag2">
-        <small class="form-text text-muted">Separate the tags by comma.</small>
-    </div>
-    <div class="form-group">
-        <label for="description">Description</label>
+
+{!! Form::open(['route' => 'documents.store', 'method' => 'POST', 'id' => 'create-doc']) !!}
+    
+    @component('documents.components.form')
         @if ($type === 'text')
-            <input type='hidden' class="form-control" name="description" ></textarea>
+            {!! Form::hidden('body', null)!!}
             <div id="editor">
             </div>
         @else
-            <textarea class="form-control" placeholder="Enter Description" id="description" name="description" ></textarea>
+            {!! Form::textarea('body', null, ['placeholder' => 'Enter Text', 'class' => 'form-control', 'id' => 'body'])!!}
         @endif
-    </div>
-    <input type="hidden" class="form-control" name="format" value="{{$type}}">
-    <button type="submit" class="btn btn-outline-primary">Create Document</button>
-</form>
+    @endcomponent
+
+    {!! Form::hidden('format', $type)!!}
+    {!! Form::submit('Save', ['class' => 'btn btn-outline-primary '])!!}
+{!! Form::close() !!}
 
 @include('documents.editor.'.$type)
 
