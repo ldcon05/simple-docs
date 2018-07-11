@@ -46,10 +46,12 @@ class SharedController extends Controller
     public function store(Request $request)
     {
 
+        $deleteShared = '';
+
         //Guaradar
         $shared = new Shared();
-        $shared->view = $request->view ? 1 : 0 ;
-        $shared->edit = $request->edit ? 1 : 0;
+        $shared->view = $request->view === 'true' ? 1 : 0; ;
+        $shared->edit = $request->edit === 'true' ? 1 : 0;
         $shared->userId = $request->userId;
         $shared->documentId = $request->documentId;
         $shared->save();
@@ -60,11 +62,18 @@ class SharedController extends Controller
             ['userId', $shared->userId],
             ['documentId', $shared->documentId]
         ])->get();
-        if(count($buscar) > 1) 
-            $buscar[0]->delete();
-        
 
-        return $shared ;
+        if(count($buscar) > 1) {
+            $deleteShared = $buscar[0]->id;
+            $buscar[0]->delete();
+        }
+            
+
+        return [
+            'shared' => $shared,
+            'email' => $shared->user->email,
+            'deleteShared' => $deleteShared
+        ] ;
     }
 
     /**

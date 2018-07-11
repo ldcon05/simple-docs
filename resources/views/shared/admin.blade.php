@@ -37,7 +37,7 @@
     <table class="table" id="sharedTable">
         <thead class="thead-light">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col" class="d-none">#</th>
                 <th scope="col">User</th>
                 <th scope="col">Edit</th>
                 <th scope="col">View</th>
@@ -47,7 +47,7 @@
         <tbody>
             @foreach($shared as $docShared)
                 <tr>
-                    <th class="id" scope="row">{{ $docShared-> id }}</th>
+                    <th class="id-{{ $docShared-> id }} d-none" scope="row">{{ $docShared-> id }}</th>
                     <td>
                         {{ $docShared-> user -> email }}
                     </td>
@@ -70,13 +70,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 
-    function appendTable(params) {
+    function appendTable(params, email) {
         $('#sharedTable tbody').append(
             `
                 <tr>
-                    <th class="id" scope="row">${params.id}</th>
+                    <th class="id-${params.id} d-none" scope="row">${params.id}</th>
                     <td>
-                            ${params.userId}
+                            ${email}
                     </td>
                     <td>
                             ${params.edit}
@@ -92,7 +92,13 @@
         );
     }
 
-    $( ".btnRemove" ).click(function () {
+    function deleteShared (id) {
+        $( '.id-'+id ).parent().remove();
+    }
+
+
+
+    $('#sharedTable tbody').on('click', '.btnRemove', function() {
         var id = $(this).parent('td').siblings('th');
         $.ajax({
             type: "DELETE",
@@ -125,7 +131,8 @@
             },
             url : "/shared",
             success : function (data) {
-                appendTable(data)
+                appendTable(data.shared, data.email)
+                deleteShared(data.deleteShared)
             },
             error: function (data) {
                 

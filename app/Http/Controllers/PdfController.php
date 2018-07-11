@@ -46,9 +46,9 @@ class PdfController extends Controller
     public function download($type, $id)
     {
         return PDF::loadHtml(($type == 'review') ? 
-                              $this->getReview($id) : 
-                              $this->getDocument($id)
-                                ->body)
-                                ->download('document.pdf');
+                                $this->getReview($id) : 
+                                $this->getDocument($id)
+                            )
+                            ->stream('document.pdf');
     }
 }
