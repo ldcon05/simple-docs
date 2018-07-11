@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="d-flex justify-content-center mt-5 mb-3">
-        <a href='create/text' class="btn btn-outline-primary mr-2 ">Create Text Document</a>
-        <a href='create/md' class="btn btn-outline-secondary">Create MD Document</a>
+        <a href='/documents/create/text' class="btn btn-outline-primary mr-2 ">Create Text Document</a>
+        <a href='/documents/create/md' class="btn btn-outline-secondary">Create MD Document</a>
     </div>
 
     @include('documents.components.filter');
