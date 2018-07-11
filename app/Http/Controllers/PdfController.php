@@ -11,14 +11,21 @@ use Markdown;
 
 class PdfController extends Controller
 {
-    public function getDocumentOrReview($type, $id)
-    {
-        $reviewCrtl = new ReviewController();
+    public function getDocument($id) {
         $documentCrtl = new DocumentController();
+        $document = $documentCrtl->show($id); 
+        return ($document->format === 'md') ? 
+                    Markdown::convertToHtml($document->body) :
+                    $document->body;
+        
+    }
 
-        $file = ($type === 'review') ? $reviewCrtl->show($id) : 
-                                       $documentCrtl->show($id);
-        return $file;
+    public function getReview($id) {
+        $reviewCrtl = new ReviewController();
+        $review = $reviewCrtl->show($id);
+        return ($review->document->format === 'md') ? 
+                    Markdown::convertToHtml($review->body) :
+                    $review->body; 
     }
 
     /**
@@ -29,14 +36,18 @@ class PdfController extends Controller
      */
     public function show($type, $id)
     {
-        return PDF::loadHtml($this->getDocumentOrReview($type, $id)
-                                ->body)
-                                ->stream('document.pdf');
+        return PDF::loadHtml(($type == 'review') ? 
+                              $this->getReview($id) : 
+                              $this->getDocument($id)
+                            )
+                            ->stream('document.pdf');
     }
 
     public function download($type, $id)
     {
-        return PDF::loadHtml($this->getDocumentOrReview($type, $id)
+        return PDF::loadHtml(($type == 'review') ? 
+                              $this->getReview($id) : 
+                              $this->getDocument($id)
                                 ->body)
                                 ->download('document.pdf');
     }
