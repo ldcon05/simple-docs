@@ -46,34 +46,27 @@ class SharedController extends Controller
     public function store(Request $request)
     {
 
-        $deleteShared = '';
+        //Find shared record 
+        $findShared = Shared::where([
+            ['userId', $request->userId],
+            ['documentId', $request->documentId]
+        ])->first();
 
-        //Guaradar
-        $shared = new Shared();
-        $shared->view = $request->view === 'true' ? 1 : 0; ;
+        $shared = (isset($findShared->id)) ? $findShared : new Shared();
+        $status = (isset($findShared->id)) ? false : true;
+
+        //Save
+        $shared->view = $request->view === 'true' ? 1 : 0;
         $shared->edit = $request->edit === 'true' ? 1 : 0;
         $shared->userId = $request->userId;
         $shared->documentId = $request->documentId;
         $shared->save();
 
-        //Eliminar
-        $deleteShared = new Shared();
-        $buscar = $deleteShared->where([
-            ['userId', $shared->userId],
-            ['documentId', $shared->documentId]
-        ])->get();
-
-        if(count($buscar) > 1) {
-            $deleteShared = $buscar[0]->id;
-            $buscar[0]->delete();
-        }
-            
-
         return [
             'shared' => $shared,
             'email' => $shared->user->email,
-            'deleteShared' => $deleteShared
-        ] ;
+            'status' => $status,
+        ];
     }
 
     /**
@@ -84,8 +77,8 @@ class SharedController extends Controller
      */
     public function show($id)
     {
-        $shared = new Shared();
-        return $shared->find($id)->document;
+        // $shared = new Shared();
+        // return $shared->find($id)->document;
     }
 
     /**

@@ -70,30 +70,41 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 
-    function appendTable(params, email) {
+    function getElement(params, email) {
+        return `
+                <th class="id-${params.id} d-none" scope="row">${params.id}</th>
+                <td>
+                        ${email}
+                </td>
+                <td>
+                        ${params.edit}
+                </td>
+                <td>
+                        ${params.view}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger btnRemove">Remove</button>
+                </td>
+        `;
+    }
+
+    function appendNewRecord(params, email) {
         $('#sharedTable tbody').append(
             `
                 <tr>
-                    <th class="id-${params.id} d-none" scope="row">${params.id}</th>
-                    <td>
-                            ${email}
-                    </td>
-                    <td>
-                            ${params.edit}
-                    </td>
-                    <td>
-                            ${params.view}
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-danger btnRemove">Remove</button>
-                    </td>
+                    ${getElement(params, email)}
                 </tr>
             `
         );
     }
 
-    function deleteShared (id) {
-        $( '.id-'+id ).parent().remove();
+    function updateRecord (params, email) {
+        $( '.id-'+params.id )
+            .parent()
+            .empty()
+            .append(
+                getElement(params, email)
+            );
     }
 
 
@@ -131,11 +142,13 @@
             },
             url : "/shared",
             success : function (data) {
-                appendTable(data.shared, data.email)
-                deleteShared(data.deleteShared)
+                if(data.status)
+                    appendNewRecord(data.shared, data.email)
+                else
+                    updateRecord(data.shared, data.email)
             },
             error: function (data) {
-                
+                console.log(data)
             }
         });
     });
